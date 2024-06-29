@@ -14,6 +14,7 @@ import UserDetailsContext from "./context/UserDetailsContext";
 import { useState } from "react";
 import Bookings from "./pages/bookings/Bookings";
 import Favourites from "./pages/favourites/Favourites";
+import ProtectedRoute from "./layout/ProtectedRoute";
 // import '@mantine/core/styles.css';
 
 const theme = createTheme({
@@ -41,8 +42,10 @@ function App() {
                     <Route index element={<Properties />} />
                     <Route path=":propertyId" element={<SingleProperty />} />
                   </Route>
+                  <Route element={<ProtectedRoute />}>
                     <Route path="/bookings" element={<Bookings />} />
                     <Route path="/favourites" element={<Favourites />} />
+                  </Route>
                 </Route>
               </Routes>
             </Suspense>
