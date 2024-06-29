@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     domain="dev-nrdya46540hut0v8.us.auth0.com"
     clientId="5snqH4SvWuF14H2KjJsP6VqBDkyOrKnH"
     authorizationParams={{
-      redirect_uri: "http://localhost:5173"
+      redirect_uri: "https://mern-stack-real-state-app-client-oc40vkkl0.vercel.app"
     }}
     audience="http://localhost:5000"
     scope="openid profile email"
