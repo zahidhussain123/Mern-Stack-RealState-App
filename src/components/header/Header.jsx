@@ -5,17 +5,30 @@ import { getMenuStyles } from "../../utils/common";
 import useHeaderColor from "../../hooks/useHeaderColor";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import Profile from "../profile/Profile";
+import AddPropertyModel from "../addPropertyModel/AddPropertyModel";
+import { useDisclosure } from "@mantine/hooks";
+import useAuthCheck from "../../hooks/useAuthCheck";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const headerColor = useHeaderColor();
+  const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const { validateLogin } = useAuthCheck();
+  const [opened, { open, close }] = useDisclosure(false);
+  const handleAddPropertyClick = async () => {
+    if (validateLogin()) {
+      open();
+    }
+  };
 
   return (
     <section className="h-wrapper" style={{ background: headerColor }}>
       <div className="flexCenter innerWidth paddings h-container">
         {/* logo */}
         <Link to="/">
-        <img src="./logo.png" alt="logo" width={100} />
+          <img src="./logo.png" alt="logo" width={100} />
         </Link>
 
         {/* menu */}
@@ -30,10 +43,16 @@ const Header = () => {
             style={getMenuStyles(menuOpened)}
           >
             <NavLink to="/properties">Properties</NavLink>
-              <a href="mailto:zahid4307@gmail.com">Contact</a>
-              <button className="button">
+            <a href="mailto:zahid4307@gmail.com">Contact</a>
+            <div onClick={handleAddPropertyClick}>Add Property</div>
+            <AddPropertyModel opened={opened} close={close} />
+            {!isAuthenticated ? (
+              <button className="button" onClick={loginWithRedirect}>
                 Login
               </button>
+            ) : (
+              <Profile user={user} logout={logout} />
+            )}
           </div>
         </OutsideClickHandler>
 

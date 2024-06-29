@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./singleProperty.css";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
-import { getSingleProperty } from "../../utils/api";
+import { cancelBooking, getSingleProperty } from "../../utils/api";
 import { PuffLoader } from "react-spinners";
 import Favourite from "../../components/favourite/Favourite";
 import { MdLocationPin, MdMeetingRoom } from "react-icons/md";
 import { FaShower } from "react-icons/fa";
 import { AiTwotoneCar } from "react-icons/ai";
+import Map from "../../components/map/Map";
+import useAuthCheck from "../../hooks/useAuthCheck";
+import BookingModal from "../../components/bookingModal/BookingModal";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useDisclosure } from '@mantine/hooks';
+import UserDetailsContext from "../../context/UserDetailsContext";
+import { Button } from "@mantine/core";
+import { toast } from "react-toastify";
 
 const SingleProperty = () => {
   const location = useLocation();
   const id = location.pathname?.split("/").pop();
+  const [opened, { open, close }] = useDisclosure(false);
   const { data, isError, isLoading } = useQuery(["singleResd", id], () =>
     getSingleProperty(id)
   );
+  const { user } = useAuth0()
+  const { validateLogin } = useAuthCheck();
+  const {userDetails: {bookings, token}, setUserDetails} = useContext(UserDetailsContext)
+  // const [modalOpened, setModalOpened] = useState(false);
+  const getCancelBook = () => {
+    toast.success("Booking Cancelled successfully",{ position: "bottom-right" })
+    setUserDetails(prev => ({
+      ...prev,
+      bookings: prev.bookings.filter((visit) => visit?.id !== id)
+    })) 
+  }
+  const {mutate, isLoading: cancelling} = useMutation({
+    mutationFn: () => cancelBooking(id, user?.email, token),
+    onSuccess: () => getCancelBook()
+  })
 
   if (isLoading) {
     return (
@@ -42,10 +66,10 @@ const SingleProperty = () => {
     );
   }
   return (
-    <div className="wrapper">
+    <div className="wrapper" >
       <div className="flexColStart paddings innerWidth property-container">
         <div className="like">
-          <Favourite />
+          <Favourite id={id} />
         </div>
         <img src={data?.residency?.image} alt="home image" />
 
@@ -96,6 +120,40 @@ const SingleProperty = () => {
                 {data?.residency?.country}
               </span>
             </div>
+            {bookings?.map((booking) => booking?.id)?.includes(id) ? (
+              <>
+              <Button variant="outline" w={"100%"} color="red" onClick={() => mutate()} disabled={cancelling}>Cancel Booking</Button>
+              <span style={{color: "whitesmoke"}}>
+                  Your visit already booked for date{" "}
+                  {bookings?.filter((booking) => booking?.id === id)[0].date}
+                </span>
+              </>
+            ) : (
+              <button
+              className="button"
+              onClick={() => {
+                if (validateLogin()) open();
+              }}
+            >
+              Book Your Visit
+            </button>
+            )
+          }
+           
+            <BookingModal
+              opened={opened}
+              close={close}
+              propertyId={id}
+              email={user?.email}
+            />
+          </div>
+          {/* map */}
+          <div className="map">
+            <Map
+              address={data?.residency?.address}
+              city={data?.residency?.city}
+              country={data?.residency?.country}
+            />
           </div>
         </div>
       </div>

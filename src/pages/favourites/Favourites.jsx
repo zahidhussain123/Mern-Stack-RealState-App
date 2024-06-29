@@ -1,13 +1,17 @@
-import React from "react";
-import "./properties.css";
-import { useProperties } from "../../hooks/useProperties";
+import React, { useContext } from "react";
+import "../properties/properties.css";
+import  {useProperties}  from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
 import SearchBar from "../../components/searchBar/SearchBar";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
 import { useState } from "react";
+import UserDetailsContext from "../../context/UserDetailsContext";
 
-const Properties = () => {
+const Favourites = () => {
   const { data, isError, isLoading } = useProperties();
+  const {
+    userDetails: { favourites },
+  } = useContext(UserDetailsContext);
   const [filterVal, setFilterVal] = useState("");
   if (isError) {
     return (
@@ -35,26 +39,25 @@ const Properties = () => {
       <div className='"flexColCenter paddings innerWidth properties-container'>
         <SearchBar filterVal={filterVal} setFilterVal={setFilterVal} />
         <div className="paddings flexCenter properties">
-          {data &&
-            data?.residencies
-              ?.filter((val) => {
-                return (
-                  val?.title
-                    ?.toLowerCase()
-                    ?.includes(filterVal?.toLowerCase()) ||
-                  val?.city
-                    ?.toLowerCase()
-                    ?.includes(filterVal?.toLowerCase()) ||
-                  val?.country
-                    ?.toLowerCase()
-                    ?.includes(filterVal?.toLowerCase())
-                );
-              })
-              ?.map((card, i) => <PropertyCard card={card} key={i} />)}
+          {data?.residencies
+            ?.filter((property) =>
+                favourites?.includes(property?.id)
+            )
+            ?.filter(
+              (property) =>
+                property?.title
+                  ?.toLowerCase()
+                  ?.includes(filterVal?.toLowerCase()) ||
+                property?.city?.toLowerCase()?.includes(filterVal?.toLowerCase()) ||
+                property?.country?.toLowerCase()?.includes(filterVal?.toLowerCase())
+            )
+            ?.map((card, i) => (
+              <PropertyCard card={card} key={i} />
+            ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default Properties;
+export default Favourites;

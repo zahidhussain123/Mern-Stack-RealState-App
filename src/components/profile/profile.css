@@ -1,0 +1,7 @@
+.avatar-small-rounded {
+    width: 5%; /* Set the width of the avatar */
+    height: 5%; /* Set the height of the avatar */
+    border-radius: 50%; /* Make the avatar fully rounded */
+    object-fit: cover; /* Ensure the image covers the avatar box */
+  }
+  
