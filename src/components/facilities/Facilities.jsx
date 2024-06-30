@@ -34,6 +34,7 @@ const Facilities = ({
     },
   });
   const { bedrooms, parkings, bathrooms } = form.values;
+  console.log("rest op", ...propertyDetails)
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       createRESIDENCY(
