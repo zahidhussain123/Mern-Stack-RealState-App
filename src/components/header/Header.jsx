@@ -17,7 +17,7 @@ const Header = () => {
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
   const { validateLogin } = useAuthCheck();
   const [opened, { open, close }] = useDisclosure(false);
-  const handleAddPropertyClick = async () => {
+  const handleAddPropertyClick =  () => {
     if (validateLogin()) {
       open();
     }
