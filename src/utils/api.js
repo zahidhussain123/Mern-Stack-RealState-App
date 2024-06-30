@@ -134,6 +134,7 @@ export const getAllBook = async (email, token) => {
 }
 
 export const createRESIDENCY = async (data, token) => {
+  console.log("res data", data)
   if (!token) return
   try {
     await api.post("/residency/create", { data },
