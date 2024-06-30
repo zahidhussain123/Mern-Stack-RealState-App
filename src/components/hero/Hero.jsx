@@ -1,9 +1,8 @@
 import React from "react";
 import "./hero.css";
-import { HiLocationMarker } from "react-icons/hi";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
-import SearchBar from "../searchBar/SearchBar";
+// import SearchBar from "../searchBar/SearchBar";
 const Hero = () => {
   return (
     <section className="hero-wrapper">
@@ -30,7 +29,7 @@ const Hero = () => {
             <span>Forget all difficulties in finding a residence for you</span>
           </div>
 
-          <SearchBar />
+          {/* <SearchBar /> */}
 
           <div className="flexCenter stats">
             <div className="flexColCenter stat">
