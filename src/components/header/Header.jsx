@@ -45,7 +45,7 @@ const Header = () => {
             <NavLink to="/properties">Properties</NavLink>
             <a href="mailto:zahid4307@gmail.com">Contact</a>
             <div onClick={handleAddPropertyClick}>Add Property</div>
-            <AddPropertyModel opened={opened} close={close} />
+            <AddPropertyModel opened={opened} close={close} user={user}/>
             {!isAuthenticated ? (
               <button className="button" onClick={loginWithRedirect}>
                 Login

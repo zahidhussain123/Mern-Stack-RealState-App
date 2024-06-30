@@ -7,10 +7,10 @@ import BasicDetails from "../basicDetails/BasicDetails";
 import Facilities from "../facilities/Facilities";
 import { checkNull } from "../../utils/common";
 
-const AddPropertyModel = ({ opened, close }) => {
-  const { user } = useAuth0();
+const AddPropertyModel = ({ opened, close , user}) => {
+  // const { user } = useAuth0();
   const [active, setActive] = useState(0);
-  console.log("user email", user.email)
+  console.log("user email", user?.email)
   const nextStep = () =>
     setActive((current) => (current < 4 ? current + 1 : current));
   const prevStep = () =>
@@ -28,7 +28,7 @@ const AddPropertyModel = ({ opened, close }) => {
       parkings: 0,
       bathrooms: 0,
     },
-    userEmail: user?.email || "",
+    userEmail: user?.email ?? "",
   });
   return (
     <Modal opened={opened} onClose={close} size={"90rem"}>
