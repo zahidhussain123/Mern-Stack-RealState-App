@@ -7,7 +7,7 @@ import BasicDetails from "../basicDetails/BasicDetails";
 import Facilities from "../facilities/Facilities";
 
 const AddPropertyModel = ({ opened, close }) => {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
   const { user } = useAuth0();
   const nextStep = () =>
     setActive((current) => (current < 4 ? current + 1 : current));
