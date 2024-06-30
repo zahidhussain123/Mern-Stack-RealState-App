@@ -1,16 +1,14 @@
-import { Button, Container, Group, Modal, Stepper } from "@mantine/core";
+import { Container,  Modal, Stepper } from "@mantine/core";
 import React, { useState } from "react";
 import AddLocation from "../addLocation/AddLocation";
 import { useAuth0 } from "@auth0/auth0-react";
 import UploadImage from "../uploadImage/UploadImage";
 import BasicDetails from "../basicDetails/BasicDetails";
 import Facilities from "../facilities/Facilities";
-import { checkNull } from "../../utils/common";
 
-const AddPropertyModel = ({ opened, close , user}) => {
-  // const { user } = useAuth0();
+const AddPropertyModel = ({ opened, close }) => {
+  const { user } = useAuth0();
   const [active, setActive] = useState(0);
-  console.log("user email", user?.email)
   const nextStep = () =>
     setActive((current) => (current < 4 ? current + 1 : current));
   const prevStep = () =>

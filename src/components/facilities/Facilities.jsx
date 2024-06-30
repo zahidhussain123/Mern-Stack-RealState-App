@@ -34,7 +34,6 @@ const Facilities = ({
     },
   });
   const { bedrooms, parkings, bathrooms } = form.values;
-  // console.log("rest op", ...propertyDetails)
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       createRESIDENCY(
@@ -46,9 +45,10 @@ const Facilities = ({
         token
       ),
     onSuccess: () => {
-      toast.success("residency added Successfully", {
+      toast.success("Residency added Successfully", {
         position: "bottom-right",
       });
+      refetchProperties();
     },
     onError: ({ response }) =>
       toast.error(response.data.message, { position: "bottom-right" }),
@@ -70,7 +70,6 @@ const Facilities = ({
       });
       close();
       setActive(0);
-      refetchProperties();
     },
   });
 
