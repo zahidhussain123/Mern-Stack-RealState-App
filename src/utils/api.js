@@ -78,7 +78,7 @@ export const bookingVisitDetails = async (token, email, id, date) => {
 
 export const cancelBooking = async (id, email, token) => {
   try {
-    await api.post(`user/cancelBookVisit/${id}`, { email }, {
+    await api.post(`/user/cancelBookVisit/${id}`, { email }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -90,7 +90,7 @@ export const cancelBooking = async (id, email, token) => {
 
 export const toFav = async (id, email, token) => {
   try {
-    const res = await api.post(`user/favResidency/${id}`, { email }, {
+    const res = await api.post(`/user/favResidency/${id}`, { email }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -144,7 +144,6 @@ export const createRESIDENCY = async (data, token) => {
       }
     )
   } catch (error) {
-    // toast.error(error.message);
     throw error
   }
 }
