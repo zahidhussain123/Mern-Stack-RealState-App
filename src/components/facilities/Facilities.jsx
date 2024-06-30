@@ -41,6 +41,7 @@ const Facilities = ({
         {
           ...propertyDetails,
           facilities: { bedrooms, parkings, bathrooms },
+          userEmail: user?.email
         },
         token
       ),
