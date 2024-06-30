@@ -44,13 +44,14 @@ const Facilities = ({
         },
         token
       ),
-    
-    onError: ({ response }) =>
-      toast.error(response.data.message, { position: "bottom-right" }),
-    onSettled: () => {
+    onSuccess: () => {
       toast.success("residency added Successfully", {
         position: "bottom-right",
       });
+    },
+    onError: ({ response }) =>
+      toast.error(response.data.message, { position: "bottom-right" }),
+    onSettled: () => {
       setPropertyDetails({
         title: "",
         description: "",
